@@ -1,1 +1,1 @@
-foo bar
+https://competitions.codalab.org/competitions/16172#participate
