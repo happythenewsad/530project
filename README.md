@@ -6,11 +6,13 @@ More information of the task can be found here: https://competitions.codalab.org
 
 The training data can be found in **/semeval2017-task8-dataset**.
 The dev data can be found in **/data**.
-The test data canb e found in **/semeval2017-task8-test-data**. 
+The test data can be found in **/semeval2017-task8-test-data**. 
 
 The baseline (**/notebooks/baseline.json**) assumes with full confidence that all the rumors are false. This results in a 48% accuracy — roughly equal to randomly guessing. **scorer** returns the accuracies, as well as whether or not each entry was labeled correctly.
 
-To generate the baseline: 
+To generate the baseline (in place of simple-baseline.py): 
 $ jupyter notebook notebooks/exploration.ipynb
-To check for accuracy:
+
+
+Evaluation script (in place of scoring.md:
 $ python3 scorer/scorerB.py LABELED_DATA.json PREDICTED_DATA.json 
