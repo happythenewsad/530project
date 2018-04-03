@@ -5,18 +5,25 @@ import os
 def twitter_pos_tag(tweets):
     """POS tag a list of tweets as strings, using ARK Twitter Tagger."""
 
+    # get tagger directory path
+    cwd = os.getcwd()
+    path = cwd[:cwd.find("530project")] + "/530project/feature-extraction/POS"
+
     # write tweets to temporary input file
-    with open('tweets.txt', 'w') as f:
+    with open('{}/tweets.txt'.format(path), 'w') as f:
         for tweet in tweets:
             f.write(tweet + '\n')
 
     # run POS tagger and return output
-    cmd = ["ark-tweet-nlp-master/runTagger.sh", "tweets.txt"]
+    cmd = [
+        "{}/ark-tweet-nlp-master/runTagger.sh".format(path),
+        "{}/tweets.txt".format(path)
+    ]
     output = str(subprocess.check_output(cmd))
     output = output[2:len(output)-2]
 
     # delete temporary input file
-    os.remove("tweets.txt")
+    os.remove("{}/tweets.txt".format(path))
 
     # read in tagged tweets
     lines = output.split('\\n')
