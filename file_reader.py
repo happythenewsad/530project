@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[78]:
-
-
 import json
 import os
 import numpy as np
@@ -14,6 +8,7 @@ dev_path = './semeval2017-task8-dataset/traindev/rumoureval-subtaskB-dev.json'
 eval_path = './semeval2017-task8-dataset/rumoureval-data/'
 
 test_folder_path = './semeval2017-task8-test-data/'
+
 
 def source_tweet_data(tweet_id, folder_path_dict, simple=True):
     tweet_data = {}
@@ -26,29 +21,30 @@ def source_tweet_data(tweet_id, folder_path_dict, simple=True):
 
     source_tweet = json.loads(source_tweet_str)    
         
-    #Take only the text data
-    #FOR BASELINE IMPLEMENTATION
+    # Take only the text data
+    # FOR BASELINE IMPLEMENTATION
     if simple:
         tweet_data['text'] = source_tweet['text']
     
-    #Use all information in the source tweet 
-    #NOT USED FOR BASELINE, BUT MAY BE USEFUL FOR GENERATING MORE FEATURES
+    # Use all information in the source tweet
+    # NOT USED FOR BASELINE, BUT MAY BE USEFUL FOR GENERATING MORE FEATURES
     else:
         tweet_data = source_tweet
     
-    #TODO: EXTRACT INFORMATION FROM TWEET REPLIES
+    # TODO: EXTRACT INFORMATION FROM TWEET REPLIES
     
-    #does the tweet have context? (boolean value)
+    # does the tweet have context? (boolean value)
     has_context = os.path.isdir(folder_path + 'context')    
     tweet_data['has_context'] = has_context
     
-    #if it does, point to context path
+    # if it does, point to context path
     if has_context:
         tweet_data['context_path'] = folder_path + 'context/'
     else:
         tweet_data['context_path'] = np.nan    
     
     return tweet_data
+
 
 def load_train_dev(train_path, dev_path, eval_path, simple=True):
 
@@ -66,57 +62,58 @@ def load_train_dev(train_path, dev_path, eval_path, simple=True):
     topic_list = os.listdir(eval_path)
     topic_dict = {}
 
-    #maintain folder path dictionary to use during feature generation
+    # maintain folder path dictionary to use during feature generation
     for topic in topic_list:
 
         for tweet_id in os.listdir(eval_path + topic):
 
-            #keep track of topic-id pairs 
+            # keep track of topic-id pairs
             topic_dict[tweet_id] = topic
 
-            #add id-folderpath pairs
+            # add id-folderpath pairs
             folder_path_dict[tweet_id] = eval_path + topic + '/' + tweet_id + '/'
-            
-      
-    #generate features for training data
+
+    # generate features for training data
     for tweet_id in train_dict.keys():
         train_data[tweet_id] = source_tweet_data(tweet_id, folder_path_dict, simple)
         
-        #note that the test data does not have explicit topic labels and therefore must have a separate process to extract topic from them
+        # note that the test data does not have explicit topic labels and
+        # therefore must have a separate process to extract topic from them
         train_data[tweet_id]['topic'] = topic_dict[tweet_id]
         train_data[tweet_id]['classification'] = train_dict[tweet_id]
 
-    #generate features for dev data
+    # generate features for dev data
     for tweet_id in dev_dict.keys():
         dev_data[tweet_id] = source_tweet_data(tweet_id, folder_path_dict, simple)
         dev_data[tweet_id]['topic'] = dev_dict[tweet_id]
         dev_data[tweet_id]['classification'] = dev_dict[tweet_id]        
     
-    #save as pandas dataframe
+    # save as pandas dataframe
     train_df = pd.DataFrame(train_data).transpose()
     dev_df = pd.DataFrame(dev_data).transpose()
     
     return train_data, dev_data, train_df, dev_df
+
 
 def load_test_data(test_folder_path, simple=True):
     
     test_data = {}    
     folder_path_dict = {}
 
-    #maintain folder path dictionary to use during feature generation
+    # maintain folder path dictionary to use during feature generation
     for tweet_id in os.listdir(test_folder_path):
-        #add id-folderpath pairs
+        # add id-folderpath pairs
         folder_path_dict[tweet_id] = test_folder_path + '/' + tweet_id + '/'
     
-    #generate features for test data
+    # generate features for test data
     for tweet_id in os.listdir(test_folder_path):
         test_data[tweet_id] = source_tweet_data(tweet_id, folder_path_dict, simple)
-        
     
-    #save as pandas dataframe
+    # save as pandas dataframe
     test_df = pd.DataFrame(test_data).transpose()
         
     return test_data, test_df
+
 
 if __name__ == "__main__":
 
@@ -132,10 +129,9 @@ if __name__ == "__main__":
 
     data_name_list = ['train_data_simple', 'dev_data_simple', 'test_data_simple', 'train_data_full', 'dev_data_full', 'test_data_full']
 
-    
     print('saving data to output..')
     
-    #crete output folder
+    # create output folder
     output_folder_path = './output'
     simple_path = output_folder_path + '/simple'
     full_path = output_folder_path + '/full'
@@ -144,7 +140,7 @@ if __name__ == "__main__":
         if not os.path.exists(folder):
             os.makedirs(folder)
     
-    #save data
+    # save data
     for idx in range(len(data_list)):
         
         data_name = data_name_list[idx]
@@ -159,19 +155,17 @@ if __name__ == "__main__":
             f.write(json.dumps(data_list[idx]))
             
         df_list[idx].to_pickle(pickle_output_name)
-        
 
-    print('test code: sample of dev data (full version) \n')    
-    #TEST CODE FOR READING PANDAS DATAFRAME
+    # TEST CODE FOR READING PANDAS DATAFRAME
+    print('test code: sample of dev data (full version) \n')
     df = pd.read_pickle('./output/full/dev_data_full.pickle')
     print(df.head())
     print('\n\n')
     
-    #TEST CODE FOR READING JSON AS DICT
+    # TEST CODE FOR READING JSON AS DICT
     with open('./output/full/dev_data_full.json', 'r') as f:
         jstr = f.read()
 
     j = json.loads(jstr)
     
     print(next(iter(j.values())))
-
