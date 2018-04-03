@@ -13,7 +13,7 @@ def tag(tweets):
     _write_temp_input_file(tweets, input_file)
 
     # run POS tagger and return output
-    cmd = ["{}/ark-tweet-nlp-master/runTagger.sh".format(path), input_file]
+    cmd = ["{}/ark-tweet-nlp/runTagger.sh".format(path), input_file]
     FNULL = open(os.devnull, 'w')
     output = str(subprocess.check_output(cmd, stderr=FNULL))
     output = output[2:len(output)-2]
@@ -44,7 +44,7 @@ def tokenize(tweets):
     _write_temp_input_file(tweets, input_file)
 
     # run POS tagger and return output
-    cmd = ["{}/ark-tweet-nlp-master/twokenize.sh".format(path), input_file]
+    cmd = ["{}/ark-tweet-nlp/twokenize.sh".format(path), input_file]
     FNULL = open(os.devnull, 'w')
     output = str(subprocess.check_output(cmd, stderr=FNULL))
     output = output[2:len(output) - 2]
@@ -106,7 +106,7 @@ def contains_abbreviation(tagged_line):
 
 
 def _get_path():
-    """Get the path of the TwitterParser.py parent folder."""
+    """Return the path of the TwitterParser.py parent folder."""
     cwd = os.getcwd()
     path_extension = "/530project/feature-extraction/twitter-features"
     path = cwd[:cwd.find("530project")] + path_extension
@@ -114,7 +114,7 @@ def _get_path():
 
 
 def _write_temp_input_file(tweets, filename):
-    """Write tweets temporary input file for the ARK parser."""
+    """Write tweets to temporary input file for the ARK parser."""
     with open(filename, 'w') as f:
         for tweet in tweets:
             f.write(tweet + '\n')
