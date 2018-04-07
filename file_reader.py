@@ -53,6 +53,7 @@ def load_train_dev(train_path, dev_path, eval_path, simple=True):
         dev_str = f2.read()
 
     train_dict = json.loads(train_str)    
+
     dev_dict = json.loads(dev_str)
     train_data = {}
     dev_data = {}
@@ -94,6 +95,10 @@ def load_train_dev(train_path, dev_path, eval_path, simple=True):
     
     return train_data, dev_data, train_df, dev_df
 
+# utility to remove .DS_Store files
+def pruneOSXArtifactFiles(a_list):
+    a_list.remove('.DS_Store')
+    return a_list
 
 def load_test_data(test_folder_path, simple=True):
     
@@ -106,7 +111,8 @@ def load_test_data(test_folder_path, simple=True):
         folder_path_dict[tweet_id] = test_folder_path + '/' + tweet_id + '/'
     
     # generate features for test data
-    for tweet_id in os.listdir(test_folder_path):
+    for tweet_id in pruneOSXArtifactFiles(os.listdir(test_folder_path)):
+        print("\n",tweet_id)
         test_data[tweet_id] = source_tweet_data(tweet_id, folder_path_dict, simple)
     
     # save as pandas dataframe
