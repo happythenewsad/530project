@@ -122,7 +122,6 @@ def load_train_dev(train_path, dev_path, eval_path, simple=True):
     return train_data, dev_data, train_df, dev_df
 
 
-
 def load_test_data(test_folder_path, simple=True):
     
     test_data = {}    
@@ -199,6 +198,7 @@ def opinion_get(row):
     
     return opinion
 
+
 def add_opinion_column(df):
     df['opinion'] = df.apply(lambda x: opinion_get(x), axis = 1)
 
@@ -250,7 +250,7 @@ if __name__ == "__main__":
     df = pd.read_pickle('./output/simple/dev_data_simple.pickle')
 
 	#preprocess the text column so that @xxx -> @someuser and http:// -> someurl
-    preprocess(df)
+    # preprocess(df)
 
     #initialize list of strongly subjective words
     strongly_subj_list = initialize_subjectivity()
