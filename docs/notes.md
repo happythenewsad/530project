@@ -6,3 +6,4 @@ badwordsformatter.py formats the original input into a 1 word per line text file
 "feature-extraction/twitter-features/word_embedding_vectors.pickle" contains all the word embedding vectors in the form {"tweet_id":[vector]}. 
 
 
+Make sure that glove.6B.200d.txt.word2vec is present in the project directory, or the file_reader.ipynb will not work.
