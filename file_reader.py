@@ -10,6 +10,24 @@ eval_path = './semeval2017-task8-dataset/rumoureval-data/'
 
 test_folder_path = './semeval2017-task8-test-data/'
 
+def replace_url_at(row):
+    text = row['text']
+    new_list = []
+    word_list = text.split()
+    for word in word_list:
+        if word[0] == '@':
+            new_list.append('@someuser')
+        elif word[:7] == 'http://':
+            new_list.append('someurl')
+        else:
+            new_list.append(word)
+            
+    new_str = ' '.join(new_list)
+    return new_str
+
+def preprocess(df):
+    df['text'] = df.apply(replace_url_at, axis = 1)
+
 
 def source_tweet_data(tweet_id, folder_path_dict, simple=True):
     tweet_data = {}
@@ -229,6 +247,9 @@ if __name__ == "__main__":
     # TEST CODE FOR READING PANDAS DATAFRAME
     print('test code: sample of dev data (simple version) \n')
     df = pd.read_pickle('./output/simple/dev_data_simple.pickle')
+
+	#preprocess the text column so that @xxx -> @someuser and http:// -> someurl
+	preprocess(df)
 
     #initialize list of strongly subjective words
     strongly_subj_list = initialize_subjectivity()
