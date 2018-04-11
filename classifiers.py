@@ -1,8 +1,7 @@
-from collections import defaultdiSVCct
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
 import sklearn.svm as svm
-import sklearn.tree.DecisionTreeClassifier as DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier
 
 """
 Use Pandas for reading data into a Pandas DataFrame
@@ -22,18 +21,21 @@ Finally, explicitly cast the DataFrame into a numpy array which can be used  by 
 """
 
 def naive_bayes(x_vectors, x_labels, y_vectors):
-	clf = GaussianNB()
+    clf = GaussianNB()
     clf.fit(x_vectors, x_labels)
-    return clf.predict(y_vectors)
+    predictions = (clf.predict(y_vectors))
+    probabilities = clf.predict_proba(y_vectors) 
+    return predictions, probabilities
 
 
 def decision_tree_classifier(x_vectors, x_labels, y_vectors):
-	clf = DecisionTreeClassifier()
-	clf.fit(x_vectors, x_labels)
-	return clf.predict(y_vectors)
+    clf = DecisionTreeClassifier()
+    clf.fit(x_vectors, x_labels)
+    return zip(clf.predict(y_vectors), clf.predict_proba(y_vectors))
+
 
 def svm_classifier(x_vectors, x_labels, y_vectors):
-	clf = svm.LinearSVC(penalty='l2',
+    clf = svm.LinearSVC(penalty='l2',
                          loss='squared_hinge',
                          dual=True, tol=0.0001,
                          C=0.5,
@@ -45,17 +47,11 @@ def svm_classifier(x_vectors, x_labels, y_vectors):
                          random_state=None,
                          max_iter=100)
     clf.fit(x_vectors, x_labels)
-    return clf.predict(y_vectors)
+    return zip(clf.predict(y_vectors), clf.predict_proba(y_vectors))
 
 
 
 # Testing below
-
-x_vectors = []
-x_labels = []
-y_vectors = []
-
-output_labels = naive_bayes()
 
 #TO DO
 #write to json format such thast we get (tweet#: [label, confidence])
