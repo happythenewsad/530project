@@ -5,3 +5,5 @@ output/
 **/*.pyc
 **/*.word2vec
 .ipynb_checkpoints/*
+**/glove*.txt
+**/glove*.txt.word2vec
