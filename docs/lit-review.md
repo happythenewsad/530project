@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 __Literature Review__
 
 &nbsp; The only team that had participated in subtask B-closed was IITP(Singh et al., 2017). The team uses the Naive Bayes classifier (which they reported to yield the best performance) after generating features from the text contents of the tweet. They qualified for the 'open' subtask by including a binary variable that indicated whether the tweet had media context to support its claims. It should be noted that the team had the lowest score among the 5 participants for the ‘closed’ subtask and their ‘open’ model only performed marginally better.   
@@ -9,3 +10,6 @@ __Literature Review__
       
 &nbsp; Lastly, we looked into previous literature on a similar topic that had been tested on a different dataset, Latent Credibility Analysis(Pasternack and Roth, 2013). LCA uses probabilistic graphical models to 
 
+=======
+sup
+>>>>>>> 10dbd8ea15e07c0e72e7fcf8a80a4c857f47e6cd
