@@ -5,21 +5,20 @@ import os
 def tag(tweets):
     """POS tag list of tweets (as strings), using ARK Twitter Tagger."""
 
-    # get tagger directory path
-    path = _get_path()
-    input_file = path + "/tweets.txt"
+    # get bash script and temporary input file directory paths
+    script_file = os.path.dirname(__file__) + "/ark-tweet-nlp/runTagger.sh"
+    input_file = os.path.dirname(__file__) + "/tweets.txt"
 
     # write tweets to temporary input file
-    _write_temp_input_file(tweets, input_file)
+    with open(input_file, 'w') as f:
+        for tweet in tweets:
+            f.write(tweet + '\n')
 
-    # run POS tagger and return output
-    cmd = ["{}/ark-tweet-nlp/runTagger.sh".format(path), input_file]
-    FNULL = open(os.devnull, 'w')
-    output = str(subprocess.check_output(cmd, stderr=FNULL))
+    # run ARK tagger and return output
+    cmd = [script_file, input_file]
+    DEVNULL = open(os.devnull, 'w')
+    output = str(subprocess.check_output(cmd, stderr=DEVNULL))
     output = output[2:len(output)-2]
-
-    # delete temporary input file
-    os.remove(input_file)
 
     # read in tagged tweets
     lines = output.split('\\n')
@@ -30,27 +29,29 @@ def tag(tweets):
         tagged_line = list(zip(tokens, tags))
         tagged_lines.append(tagged_line)
 
+    # delete temporary input file
+    os.remove(input_file)
+
     return tagged_lines
 
 
 def tokenize(tweets):
     """Tokenize list of tweets (as strings), using ARK Twokenize."""
 
-    # get tagger directory path
-    path = _get_path()
-    input_file = path + "/tweets.txt"
+    # get bash script and temporary input file directory paths
+    script_file = os.path.dirname(__file__) + "/ark-tweet-nlp/twokenize.sh"
+    input_file = os.path.dirname(__file__) + "/tweets.txt"
 
     # write tweets to temporary input file
-    _write_temp_input_file(tweets, input_file)
+    with open(input_file, 'w') as f:
+        for tweet in tweets:
+            f.write(tweet + '\n')
 
-    # run POS tagger and return output
-    cmd = ["{}/ark-tweet-nlp/twokenize.sh".format(path), input_file]
-    FNULL = open(os.devnull, 'w')
-    output = str(subprocess.check_output(cmd, stderr=FNULL))
+    # run ARK tokenizer and return output
+    cmd = [script_file, input_file]
+    DEVNULL = open(os.devnull, 'w')
+    output = str(subprocess.check_output(cmd, stderr=DEVNULL))
     output = output[2:len(output) - 2]
-
-    # delete temporary input file
-    os.remove(input_file)
 
     # read in tagged tweets
     lines = output.split('\\n')
@@ -60,15 +61,18 @@ def tokenize(tweets):
         tokens = tokens.split()
         tokenized_lines.append(tokens)
 
+    # delete temporary input file
+    os.remove(input_file)
+
     return tokenized_lines
 
 
 def word_count(tagged_line):
     """Return word count of a tagged line."""
     count = 0
-    stoptags = ["#", "@", "~", "U", "E", ",", "G"]
+    stop_tags = ['#', '@', '~', 'U', 'E', ',', 'G']
     for _, tag in tagged_line:
-        if tag not in stoptags:
+        if tag not in stop_tags:
             count += 1
     return count
 
@@ -103,18 +107,3 @@ def contains_abbreviation(tagged_line):
         if tag == "G":
             return True
     return False
-
-
-def _get_path():
-    """Return the path of the TwitterParser.py parent folder."""
-    cwd = os.getcwd()
-    path_extension = "/530project/feature-extraction/twitter-features"
-    path = cwd[:cwd.find("530project")] + path_extension
-    return path
-
-
-def _write_temp_input_file(tweets, filename):
-    """Write tweets to temporary input file for the ARK parser."""
-    with open(filename, 'w') as f:
-        for tweet in tweets:
-            f.write(tweet + '\n')

@@ -2,12 +2,32 @@ import json
 import os
 import numpy as np
 import pandas as pd
+import nltk
 
 train_path = './semeval2017-task8-dataset/traindev/rumoureval-subtaskB-train.json'
 dev_path = './semeval2017-task8-dataset/traindev/rumoureval-subtaskB-dev.json' 
 eval_path = './semeval2017-task8-dataset/rumoureval-data/'
 
 test_folder_path = './semeval2017-task8-test-data/'
+
+def replace_url_at(row):
+    text = row['text']
+    new_list = []
+    word_list = text.split()
+    for word in word_list:
+        if word[0] == '@':
+            new_list.append('@someuser')
+        elif word[:7] == 'http://':
+            new_list.append('someurl')
+        else:
+            new_list.append(word)
+            
+    new_str = ' '.join(new_list)
+    new_str = new_str.replace('\n', ' ').replace('\t', ' ')
+    return new_str
+
+def preprocess(df):
+    df['text'] = df.apply(replace_url_at, axis = 1)
 
 
 def source_tweet_data(tweet_id, folder_path_dict, simple=True):
@@ -34,7 +54,7 @@ def source_tweet_data(tweet_id, folder_path_dict, simple=True):
     # TODO: EXTRACT INFORMATION FROM TWEET REPLIES
     
     # does the tweet have context? (boolean value)
-    has_context = os.path.isdir(folder_path + 'context')    
+    has_context = int(os.path.isdir(folder_path + 'context'))
     tweet_data['has_context'] = has_context
     
     # if it does, point to context path
@@ -44,6 +64,12 @@ def source_tweet_data(tweet_id, folder_path_dict, simple=True):
         tweet_data['context_path'] = np.nan    
     
     return tweet_data
+
+# utility to remove .DS_Store files
+def pruneOSXArtifactFiles(a_list):
+    if '.DS_Store' in a_list:
+        a_list.remove('.DS_Store')
+    return a_list
 
 
 def load_train_dev(train_path, dev_path, eval_path, simple=True):
@@ -95,11 +121,7 @@ def load_train_dev(train_path, dev_path, eval_path, simple=True):
     
     return train_data, dev_data, train_df, dev_df
 
-# utility to remove .DS_Store files
-def pruneOSXArtifactFiles(a_list):
-    if '.DS_Store' in a_list:
-        a_list.remove('.DS_Store')
-    return a_list
+
 
 def load_test_data(test_folder_path, simple=True):
     
@@ -120,6 +142,66 @@ def load_test_data(test_folder_path, simple=True):
     test_df = pd.DataFrame(test_data).transpose()
         
     return test_data, test_df
+
+def initialize_subjectivity():
+
+    sj = []
+    with open('./mpqa/subjectivity.tff', 'r') as subject:
+        sj = subject.readlines()
+
+    subj = []
+    for element in sj:
+        subj.append(element.replace('\n', ''))
+
+    word_list = []
+    wtype_list = []
+    pos_list = []
+    polar_list = []
+
+    for txt in subj:
+        #word
+        word = txt.split(' ')[2].split('=')[1]
+
+        #type
+        wtype = txt.split(' ')[0].split('=')[1]
+
+        #pos
+        pos = txt.split(' ')[3].split('=')[1]
+
+        #polarity
+        polar = txt.split(' ')[5].split('=')[1]
+
+        word_list.append(word)
+        wtype_list.append(wtype)
+        pos_list.append(pos)
+        polar_list.append(polar)  
+        
+    dat = {'word' : word_list, 'type':wtype_list, 'pos':pos_list, 'polarity':polar_list}
+    subjectivity = pd.DataFrame(data = dat)
+
+    strongly_subj_list = subjectivity[subjectivity['type'] == 'strongsubj']['word'].tolist()
+
+    return strongly_subj_list
+
+def opinion_get(row):
+    
+    global strongly_subj_list
+    
+    text = row['text']
+    text_words = nltk.word_tokenize(text.lower())
+    text_words = [word for word in text_words if word.isalpha()]
+
+    opinion = 0
+    
+    for word in text_words:
+        if word in strongly_subj_list:
+            opinion = 1
+    
+    return opinion
+
+def add_opinion_column(df):
+    df['opinion'] = df.apply(lambda x: opinion_get(x), axis = 1)
+
 
 
 if __name__ == "__main__":
@@ -164,15 +246,17 @@ if __name__ == "__main__":
         df_list[idx].to_pickle(pickle_output_name)
 
     # TEST CODE FOR READING PANDAS DATAFRAME
-    print('test code: sample of dev data (full version) \n')
-    df = pd.read_pickle('./output/full/dev_data_full.pickle')
-    print(df.head())
-    print('\n\n')
-    
-    # TEST CODE FOR READING JSON AS DICT
-    with open('./output/full/dev_data_full.json', 'r') as f:
-        jstr = f.read()
+    print('test code: sample of dev data (simple version) \n')
+    df = pd.read_pickle('./output/simple/dev_data_simple.pickle')
 
-    j = json.loads(jstr)
-    
-    print(next(iter(j.values())))
+	#preprocess the text column so that @xxx -> @someuser and http:// -> someurl
+    preprocess(df)
+
+    #initialize list of strongly subjective words
+    strongly_subj_list = initialize_subjectivity()
+
+    #add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
+    add_opinion_column(df)
+
+    print(df[:10])
+
