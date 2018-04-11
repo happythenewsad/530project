@@ -54,7 +54,7 @@ def source_tweet_data(tweet_id, folder_path_dict, simple=True):
     # TODO: EXTRACT INFORMATION FROM TWEET REPLIES
     
     # does the tweet have context? (boolean value)
-    has_context = os.path.isdir(folder_path + 'context')    
+    has_context = int(os.path.isdir(folder_path + 'context'))
     tweet_data['has_context'] = has_context
     
     # if it does, point to context path
