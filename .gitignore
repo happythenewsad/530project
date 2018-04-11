@@ -4,4 +4,4 @@ __pycache__
 output/
 **/*.pyc
 **/*.word2vec
-.ipynb_checkouts/
+.ipynb_checkpoints/
