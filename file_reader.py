@@ -23,6 +23,7 @@ def replace_url_at(row):
             new_list.append(word)
             
     new_str = ' '.join(new_list)
+    new_str = new_str.replace('\n', ' ').replace('\t', ' ')
     return new_str
 
 def preprocess(df):
@@ -249,7 +250,7 @@ if __name__ == "__main__":
     df = pd.read_pickle('./output/simple/dev_data_simple.pickle')
 
 	#preprocess the text column so that @xxx -> @someuser and http:// -> someurl
-	preprocess(df)
+    preprocess(df)
 
     #initialize list of strongly subjective words
     strongly_subj_list = initialize_subjectivity()
@@ -257,5 +258,5 @@ if __name__ == "__main__":
     #add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
     add_opinion_column(df)
 
-    print(df.head())
+    print(df[:10])
 
