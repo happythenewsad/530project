@@ -95,11 +95,13 @@ def load_train_dev(train_path, dev_path, eval_path, simple=True):
     
     return train_data, dev_data, train_df, dev_df
 
+
 # utility to remove .DS_Store files
 def pruneOSXArtifactFiles(a_list):
     if '.DS_Store' in a_list:
         a_list.remove('.DS_Store')
     return a_list
+
 
 def load_test_data(test_folder_path, simple=True):
     

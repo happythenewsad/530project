@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 sys.path.append(os.getcwd() + "/feature-extraction/twitter-features")
 import TwitterParser    # noqa
