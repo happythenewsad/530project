@@ -31,16 +31,23 @@ def naive_bayes(x_vectors, x_labels, y_vectors):
 def decision_tree_classifier(x_vectors, x_labels, y_vectors):
     clf = DecisionTreeClassifier()
     clf.fit(x_vectors, x_labels)
-    predictions = (clf.predict(y_vectors))
-    probabilities = clf.predict_proba(y_vectors) 
-    return predictions, probabilities
+    return zip(clf.predict(y_vectors), clf.predict_proba(y_vectors))
+
 
 def svm_classifier(x_vectors, x_labels, y_vectors):
-    clf = svm.LinearSVC()
+    clf = svm.LinearSVC(penalty='l2',
+                         loss='squared_hinge',
+                         dual=True, tol=0.0001,
+                         C=0.5,
+                         multi_class='ovr',
+                         fit_intercept=True,
+                         intercept_scaling=1,
+                         class_weight=None,
+                         verbose=0,
+                         random_state=None,
+                         max_iter=100)
     clf.fit(x_vectors, x_labels)
-    predictions = (clf.predict(y_vectors))
-    probabilities = clf.decision_function(y_vectors) 
-    return predictions, probabilities
+    return zip(clf.predict(y_vectors), clf.predict_proba(y_vectors))
 
 
 

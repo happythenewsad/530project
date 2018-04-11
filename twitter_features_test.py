@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.append(os.getcwd() + "/feature-extraction/twitter-features")
-import TwitterParser    # noqa
+from TwitterParser import TwitterParser    # noqa
 
 
 example_tweets = [
@@ -34,5 +34,6 @@ for tweet in tagged_tweets:
         TwitterParser.contains_url(tweet),
         TwitterParser.contains_adjectives(tweet),
         TwitterParser.contains_emoji(tweet),
-        TwitterParser.contains_abbreviation(tweet))
+        TwitterParser.contains_abbreviation(tweet)),
+        TwitterParser.pos_counts(tweet)
     )

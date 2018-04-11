@@ -8,7 +8,7 @@ import sys
 
 truth_values = json.load(open(reference_file, 'r'))
 submission = json.load(open(submission_file, 'r'))
-print(submission)
+
 observed = 0
 correct = 0
 total = len(truth_values.keys())
