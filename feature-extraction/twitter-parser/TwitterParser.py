@@ -11,7 +11,7 @@ class TwitterParser:
         """POS tag list of tweets (as strings), using ARK Twitter Tagger."""
 
         # get bash script and temporary input file directory paths
-        script_file = os.path.dirname(__file__) + "/ark-tweet-nlp/runTagger.sh"
+        script_file = os.path.dirname(__file__) + "/runTagger.sh"
         input_file = os.path.dirname(__file__) + "/tweets.txt"
 
         # write tweets to temporary input file
@@ -44,7 +44,7 @@ class TwitterParser:
         """Tokenize list of tweets (as strings), using ARK Twokenize."""
 
         # get bash script and temporary input file directory paths
-        script_file = os.path.dirname(__file__) + "/ark-tweet-nlp/twokenize.sh"
+        script_file = os.path.dirname(__file__) + "/twokenize.sh"
         input_file = os.path.dirname(__file__) + "/tweets.txt"
 
         # write tweets to temporary input file
