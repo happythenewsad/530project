@@ -1,7 +1,9 @@
 notebooks/.ipynb_checkpoints/
 tests/__pycache__/
 __pycache__
-output/
+output/full/
+output/simple/
+output/classifier_output/*
 **/*.pyc
 **/*.word2vec
 .ipynb_checkpoints/*
