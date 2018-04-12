@@ -26,3 +26,12 @@ To train and validate model:
 ----------------------------
 
 Open main.ipynb in jupyter and execute each cell in sequence.
+
+
+
+Results (against dev set)
+=======
+
+Naive Bayes   = .32 veracity accuracy 
+SVM           = .24 veracity accuracy 
+Decision Tree = .36 veracity accuracy
