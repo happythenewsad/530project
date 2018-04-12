@@ -4,11 +4,11 @@ import numpy as np
 import pandas as pd
 import nltk
 
-train_path = './semeval2017-task8-dataset/traindev/rumoureval-subtaskB-train.json'
-dev_path = './semeval2017-task8-dataset/traindev/rumoureval-subtaskB-dev.json' 
-eval_path = './semeval2017-task8-dataset/rumoureval-data/'
+train_path = 'data/semeval2017-task8-dataset/traindev/rumoureval-subtaskB-train.json'
+dev_path = 'data/semeval2017-task8-dataset/traindev/rumoureval-subtaskB-dev.json' 
+eval_path = 'data/semeval2017-task8-dataset/rumoureval-data/'
 
-test_folder_path = './semeval2017-task8-test-data/'
+test_folder_path = 'data/semeval2017-task8-test-data/'
 
 def replace_url_at(row):
     text = row['text']
