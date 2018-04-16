@@ -1,6 +1,7 @@
 exec(open('file_reader.py').read())
 #df.head()
 
+"""
 import sys
 sys.path.insert(1, "./feature-extraction/twitter-features")
 from EmbedExtractor import EmbedExtractor
@@ -274,4 +275,4 @@ with open('output/classifier_output/tr_test.json', 'w') as outfile:
 # naive_bayes = .32 veracity accuracy 
 # svm = .24 veracity accuracy 
 # decision tree = .36 veracity accuracy
-
+"""
