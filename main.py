@@ -6,6 +6,7 @@ import sys
 sys.path.insert(1, "./feature-extraction/twitter-features")
 from EmbedExtractor import EmbedExtractor
 from VulgarExtractor import VulgarExtractor
+from OpinionExtractor import OpinionExtractor
 
 ee = EmbedExtractor()
 
