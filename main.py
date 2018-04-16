@@ -1,3 +1,4 @@
+"""
 exec(open('file_reader.py').read())
 #df.head()
 
@@ -12,22 +13,29 @@ import classifiers
 # temp code to set the default dataframe as the test dataframe
 df = full_df_list[0]
 
+def normalize(column_name):
+    std = df[column_name].std()
+    norm_col = df[column_name].apply(lambda x: x - std)
+    df[column_name] = norm_col
 
-global strongly_subj_list
-strongly_subj_list = OpinionExtractor.initialize_subjectivity()
 
-#add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
-OpinionExtractor.add_opinion_column(df)
+def create_opinion_column(df):
 
+    global strongly_subj_list
+    strongly_subj_list = OpinionExtractor.initialize_subjectivity()
+
+    #add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
+    OpinionExtractor.add_opinion_column(df)
+
+def create_vulgar_column(df):
+    wordlist = VulgarExtractor.vulgarWords("badwords.txt") 
+    dftext = df[['text']]
+    result = dftext.applymap(lambda x: VulgarExtractor.containsVulgar(x,wordlist))
+    df['isVulgar'] = result
 
 
 
 ee = EmbedExtractor()
-
-wordlist = VulgarExtractor.vulgarWords("badwords.txt") 
-dftext = df[['text']]
-result = dftext.applymap(lambda x: VulgarExtractor.containsVulgar(x,wordlist))
-df['isVulgar'] = result
 
 #word embeddings must be generated before POS
 word_embeddings = [ee.tweetVec(tagged_line) for tagged_line in df['text']]
@@ -50,11 +58,6 @@ for tagged_sent in df['POS']:
     sent = ' '.join(processed_words)
     processed_sents.append(sent)
 df['text'] = processed_sents
-
-def normalize(column_name):
-    std = df[column_name].std()
-    norm_col = df[column_name].apply(lambda x: x - std)
-    df[column_name] = norm_col
 
 # import TwitterParser features
 word_counts = [TwitterParser.word_count(tagged_line) for tagged_line in df['POS']]
