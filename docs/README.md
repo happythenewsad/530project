@@ -10,6 +10,9 @@ The test data can be found in **/semeval2017-task8-test-data**.
 
 The baseline (**/notebooks/baseline.json**) assumes with full confidence that all the rumors are false. This results in a 48% accuracy — roughly equal to randomly guessing. **scorer** returns the accuracies, as well as whether or not each entry was labeled correctly.
 
+Update: By removing word embeddings (in which one word embedding's dimensions were added as features, resulting in a ~9000-D vector for each row), and containsURL, the Naive Bayes model gets .48 accuracy.
+
+
 To generate the baseline (in place of simple-baseline.py): 
 $ jupyter notebook notebooks/exploration.ipynb
 
