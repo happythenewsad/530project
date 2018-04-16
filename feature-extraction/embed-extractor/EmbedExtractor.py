@@ -19,6 +19,7 @@ class EmbedExtractor():
 		filename = 'glove.6B.'+str(size)+'d.txt.word2vec'
 		self.model = KeyedVectors.load_word2vec_format(filename, binary=False)
 		self.wv = self.model.wv
+		self.size = size
 
 	def tweetVec(self, tweet):
 		pad=[0.0]*self.size
