@@ -19,3 +19,11 @@ $ jupyter notebook notebooks/exploration.ipynb
 
 Evaluation script (in place of scoring.md:
 $ python3 scorer/scorerB.py LABELED_DATA.json PREDICTED_DATA.json 
+
+
+A paragraph for the discussions section - yd
+A big challenge of the task was the inherent difficulty of identifying a false rumor. For instance, one training example - id 524947867975561216 - is a tweet posted by cnn's official account. The text content of the tweet is as follows: 'Ottawa Police Service: There were "numerous gunmen" at the Canada War Memorial shooting. One person was shot. http://t.co/zNhxK6wBoy'.
+While the tweet was made by a reputable source and the text was innocuous in content, this data point is labeled false, due to there having been only one confirmed gunman in the scene; the rest of the tweet is true. This information is only verified by examining the supplementary context information, a wikipedia page that states that there was only one gunman. 
+The task is made more difficult as the wikipedia page itself links to another news article that reports 'multiple gunmen' being at the scene. This example suggest that detecting false rumors may require a semantic level information.
+It also raises awareness about the need for a more specific goal in our classification task. Not all fake news are created equal: there are varying degrees of falsehood and the underlying intent also plays a role. Does having a mild inaccuracy in an initial news report warrant the same label as a malicious fabricated story designed to mislead readers? What about news content that intentionally omit facts for an agenda? Should it be considered to be true? 
+These questions will prove beneficial in designing future systems for detecting falsehood in social media.
