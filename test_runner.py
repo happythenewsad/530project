@@ -3,7 +3,7 @@ import unittest
 import logging
 import sys
 
-sys.path.insert(1, "./feature-extraction/twitter-features")
+sys.path.insert(1, "./feature-extraction/vulgar-extractor")
 
 all_tests = unittest.TestLoader().discover(os.path.join(os.path.dirname(__file__), "tests"), "test_*.py")
 unittest.TextTestRunner(verbosity=2).run(all_tests)
