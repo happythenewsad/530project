@@ -10,7 +10,7 @@ class OpinionExtractor:
     def initialize_subjectivity():
 
         sj = []
-        with open('./subjectivity.tff', 'r') as subject:
+        with open('./feature-extraction/opinion-extractor/subjectivity.tff', 'r') as subject:
             sj = subject.readlines()
 
         subj = []
@@ -47,9 +47,7 @@ class OpinionExtractor:
 
         return strongly_subj_list
 
-    def opinion_get(row):
-        
-        global strongly_subj_list
+    def opinion_get(row, strongly_subj_list):
         
         text = row['text']
         text_words = nltk.word_tokenize(text.lower())
@@ -64,9 +62,8 @@ class OpinionExtractor:
         return opinion
 
 
-    def add_opinion_column(df):
-        df['opinion'] = df.apply(lambda x: FileReader.opinion_get(x), axis = 1)
-
+    def add_opinion_column(df, strongly_subj_list):
+        df['opinion'] = df.apply(lambda x: OpinionExtractor.opinion_get(x, strongly_subj_list), axis = 1)
 
 
 

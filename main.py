@@ -1,40 +1,64 @@
-"""
-exec(open('file_reader.py').read())
-#df.head()
-
 import sys
-sys.path.insert(1, "./feature-extraction/twitter-features")
-from EmbedExtractor import EmbedExtractor
+#sys.path.insert(1, "./feature-extraction/embed-extractor/")
+#from EmbedExtractor import EmbedExtractor
+from FileReader import FileReader
+sys.path.insert(1, "./feature-extraction/vulgar-extractor/")
 from VulgarExtractor import VulgarExtractor
+sys.path.insert(1, "./feature-extraction/opinion-extractor/")
 from OpinionExtractor import OpinionExtractor
+sys.path.insert(1, "./feature-extraction/twitter-parser/")
 from TwitterParser import TwitterParser
+
 import classifiers
 
-# temp code to set the default dataframe as the test dataframe
-df = full_df_list[0]
 
 def normalize(column_name):
     std = df[column_name].std()
     norm_col = df[column_name].apply(lambda x: x - std)
     df[column_name] = norm_col
 
-
 def create_opinion_column(df):
-
-    global strongly_subj_list
-    strongly_subj_list = OpinionExtractor.initialize_subjectivity()
-
     #add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
-    OpinionExtractor.add_opinion_column(df)
+    global strongly_subj_list
+    OpinionExtractor.add_opinion_column(df, strongly_subj_list)
 
 def create_vulgar_column(df):
-    wordlist = VulgarExtractor.vulgarWords("badwords.txt") 
+    global wordlist
     dftext = df[['text']]
     result = dftext.applymap(lambda x: VulgarExtractor.containsVulgar(x,wordlist))
     df['isVulgar'] = result
 
 
+if __name__ == "__main__":
+#    exec(open('FileReader.py').read())
 
+    full_df_list = FileReader.get_dataframe()
+
+    #load strongly subjective list
+    strongly_subj_list = OpinionExtractor.initialize_subjectivity()
+
+    #load vulgar words list
+    wordlist = VulgarExtractor.vulgarWords("./feature-extraction/vulgar-extractor/badwords.txt") 
+
+
+    #this loop will generate all features
+    for df in full_df_list:
+        create_opinion_column(df)
+        create_vulgar_column(df)
+
+    
+    train_df = full_df_list[0]
+    dev_df = full_df_list[1]
+    test_df = full_df_list[2]
+  
+    #print the first line of each dataframe to check output
+    print(train_df.iloc[0])
+    print(dev_df.iloc[0])
+    print(test_df.iloc[0])
+
+
+#TODO - modularize methods below and add them into the for loop above
+"""
 ee = EmbedExtractor()
 
 #word embeddings must be generated before POS

@@ -10,12 +10,11 @@ eval_path = 'data/semeval2017-task8-dataset/rumoureval-data/'
 
 test_folder_path = 'data/semeval2017-task8-test-data/'
 
-strongly_subj_list = None
 
 class FileReader:
 
     #returns a list of dataframes in the following order: train, dev, test (full)
-    def exec(self):
+    def get_dataframe():
         train_data_simple, dev_data_simple, train_df_simple, dev_df_simple = FileReader.load_train_dev(train_path, dev_path, eval_path, simple=True)
         test_data_simple, test_df_simple = FileReader.load_test_data(test_folder_path, simple=True)
 
@@ -73,7 +72,8 @@ class FileReader:
 
         return full_df_list 
 
-    #def __init__(self):
+    def __init__(self):
+        print('initializing filereader')
 
 
     def replace_url_at(row):
@@ -156,9 +156,9 @@ class FileReader:
         topic_dict = {}
 
         # maintain folder path dictionary to use during feature generation
-        for topic in topic_list:
+        for topic in FileReader.pruneOSXArtifactFiles(topic_list):
 
-            for tweet_id in os.listdir(eval_path + topic):
+            for tweet_id in FileReader.pruneOSXArtifactFiles(os.listdir(eval_path + topic)):
 
                 # keep track of topic-id pairs
                 topic_dict[tweet_id] = topic
