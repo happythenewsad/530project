@@ -1,12 +1,26 @@
 exec(open('file_reader.py').read())
 #df.head()
 
-"""
 import sys
 sys.path.insert(1, "./feature-extraction/twitter-features")
 from EmbedExtractor import EmbedExtractor
 from VulgarExtractor import VulgarExtractor
 from OpinionExtractor import OpinionExtractor
+from TwitterParser import TwitterParser
+import classifiers
+
+# temp code to set the default dataframe as the test dataframe
+df = full_df_list[0]
+
+
+global strongly_subj_list
+strongly_subj_list = OpinionExtractor.initialize_subjectivity()
+
+#add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
+OpinionExtractor.add_opinion_column(df)
+
+
+
 
 ee = EmbedExtractor()
 
@@ -18,7 +32,6 @@ df['isVulgar'] = result
 #word embeddings must be generated before POS
 word_embeddings = [ee.tweetVec(tagged_line) for tagged_line in df['text']]
 
-from TwitterParser import TwitterParser
 textlist = [txt.replace('\n','') for txt in df['text'].tolist()]
 tagged_sents = TwitterParser.tag(textlist)
 df['POS'] = tagged_sents
@@ -110,7 +123,6 @@ dev_values = np.array(dev_values, dtype=object)
 
 
 
-import classifiers
 
 # note predict_proba() gets probabilities for all 3 labels
 #... and decision_tree_classifier uses decision_function() instead of predict_proba()... weird sklearn quirk
