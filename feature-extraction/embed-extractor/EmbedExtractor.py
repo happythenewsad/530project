@@ -21,7 +21,7 @@ class EmbedExtractor():
 		self.wv = self.model.wv
 
 	def tweetVec(self, tweet):
-		pad=[0.0]*len(self.wv["the"])
+		pad=[0.0]*self.size
 		translator = str.maketrans('', '', string.punctuation)
 		vec=[]
 		tweetParse=[word.translate(translator).lower() for word in tweet.split(" ")]
@@ -35,3 +35,5 @@ class EmbedExtractor():
 		for i in range(wordsLeft):
 			vec.extend(pad)
 		return vec
+
+ee = EmbedExtractor()
