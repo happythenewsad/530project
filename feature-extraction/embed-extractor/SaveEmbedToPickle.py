@@ -20,4 +20,4 @@ for key in j:
 	tweet=j[key]['text']
 	tweet2vec[key]=tweet
 
-pickle.dump(tweet2vec,open("feature_embedding_delete.pickle","wb"))
+pickle.dump(tweet2vec,open("feature_embedding.pickle","wb"))
