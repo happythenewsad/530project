@@ -8,3 +8,4 @@ class FileReaderTester(unittest.TestCase):
     def test_does_it_run(self):
         classInstance = FileReader()
         df = classInstance.exec()
+        self.assertEqual(type(df).__name__, 'DataFrame')
