@@ -13,6 +13,8 @@ test_folder_path = 'data/semeval2017-task8-test-data/'
 strongly_subj_list = None
 
 class FileReader:
+
+    #returns a list of dataframes in the following order: train, dev, test (full)
     def exec(self):
         train_data_simple, dev_data_simple, train_df_simple, dev_df_simple = FileReader.load_train_dev(train_path, dev_path, eval_path, simple=True)
         test_data_simple, test_df_simple = FileReader.load_test_data(test_folder_path, simple=True)
@@ -53,21 +55,23 @@ class FileReader:
             df_list[idx].to_pickle(pickle_output_name)
 
         # TEST CODE FOR READING PANDAS DATAFRAME
-        print('test code: sample of dev data (simple version) \n')
-        df = pd.read_pickle('./output/simple/dev_data_simple.pickle')
+        # print('test code: sample of dev data (simple version) \n')
+        # df = pd.read_pickle('./output/simple/dev_data_simple.pickle')
+
 
         #preprocess the text column so that @xxx -> @someuser and http:// -> someurl
         # preprocess(df)
 
         #initialize list of strongly subjective words
-        global strongly_subj_list
-        strongly_subj_list = FileReader.initialize_subjectivity()
+        # global strongly_subj_list
+        # strongly_subj_list = FileReader.initialize_subjectivity()
 
         #add a binary column where opinion == 1 if the tweet text contains a strongly subjective word
-        FileReader.add_opinion_column(df)
+        # FileReader.add_opinion_column(df)
 
-        print(df[:2])
-        return df        
+        full_df_list = df_list[3:]
+
+        return full_df_list 
 
     #def __init__(self):
 
