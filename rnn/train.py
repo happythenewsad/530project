@@ -21,20 +21,20 @@ def random_training_pair():
     return category, line, category_tensor, line_tensor
 
 
-def train(category_tensor, line_tensor, decoder):
+def train(category_tensor, line_tensor, decoder, decoder_optimizer):
     hidden = decoder.init_hidden()
     decoder.zero_grad()
-    loss = 0
+    #print(line_tensor.size()[0])
+    #print("_________")
 
-    for c in range(line_tensor.size()[0]):
-        print("{}\n{}\n{}".format(c, category_tensor[c], hidden))
-        output, hidden = decoder(line_tensor[c], hidden)
+    # for c in range(line_tensor.size()[0]):
+    #     print("{}\n__{}\n__{}\n".format(c, line_tensor[0][c], hidden))
+    #     output, hidden = decoder(line_tensor[0][c], hidden)
     
-    loss += criterion(output, line_tensor[c])
+    output, hidden = decoder(line_tensor, hidden)
+    loss = decoder.criterion(output, category_tensor)
 
     loss.backward()
-    decoder_optimizer.step()
-
     return output, loss.data[0]
 
 def save():

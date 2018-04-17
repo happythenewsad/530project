@@ -7,7 +7,6 @@ import time
 import math
 import torch
 from torch.autograd import Variable
-import tensorflow as tf
 import numpy as np
 
 # Reading and un-unicode-encoding data
