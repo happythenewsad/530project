@@ -21,13 +21,14 @@ def random_training_pair():
     return category, line, category_tensor, line_tensor
 
 
-def train(category_tensor, line_tensor):
+def train(category_tensor, line_tensor, decoder):
     hidden = decoder.init_hidden()
     decoder.zero_grad()
     loss = 0
 
     for c in range(line_tensor.size()[0]):
-        output, hidden = decoder(category_tensor[c], hidden)
+        print("{}\n{}\n{}".format(c, category_tensor[c], hidden))
+        output, hidden = decoder(line_tensor[c], hidden)
     
     loss += criterion(output, line_tensor[c])
 
