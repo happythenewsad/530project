@@ -15,20 +15,29 @@ class RNN(nn.Module):
         self.i2h = nn.Linear(input_size + hidden_size, hidden_size)
         self.i2o = nn.Linear(input_size + hidden_size, output_size)
         self.softmax = nn.LogSoftmax(dim=1)
+        
     def forward(self, input, hidden):
-        input = self.encoder(input.view(1, -1))
-        output, hidden = self.gru(input.view(1, 1, -1), hidden)
-        output = self.decoder(output.view(1, -1))
+        combined = torch.cat((input, hidden), 1)
+        hidden = self.i2h(combined)
+        output = self.i2o(combined)
+        output = self.softmax(output)
         return output, hidden
 
+
     def init_hidden(self):
-        return Variable(torch.zeros(self.n_layers, 1, self.hidden_size))
+        return Variable(torch.rand(1, self.hidden_size))
+
+    def evaluate(self, line_tensor):
+        hidden = self.init_hidden()
+        for i in range(line_tensor.size()[0]):
+            output, hidden = self(line_tensor[i], hidden)
+        
+        return output
 
     def predict(self, vectors):
-        print('\n> %s' % input_line)
         predictions = []
         for v in vectors:
-            output = evaluate(Variable(lineToTensor(input_line)))
+            output = self.evaluate(Variable(torch.FloatTensor(v)))
             # Get top N categories
             topv, topi = output.data.topk(1, 1, True)
             value = topv[0][1]

@@ -5,34 +5,36 @@ import torch.nn as nn
 from torch.autograd import Variable
 import argparse
 import os
-
+import random
 from helpers import *
 from model import *
 # from generate import *
 
+all_categories = [0, 1, 2]                        
 
 
-def random_training_set(chunk_len):
-    start_index = random.randint(0, file_len - chunk_len)
-    end_index = start_index + chunk_len + 1
-    chunk = file[start_index:end_index]
-    inp = char_tensor(chunk[:-1])
-    target = char_tensor(chunk[1:])
-    return inp, target
+def random_training_pair():
+    category = random.choice(all_categories)
+    line = random.choice(category_lines_train[category])
+    category_tensor = Variable(torch.LongTensor([all_categories.index(category)]))
+    line_tensor = Variable(line_to_tensor(line))
+    return category, line, category_tensor, line_tensor
 
-def train(inp, target):
+
+def train(category_tensor, line_tensor):
     hidden = decoder.init_hidden()
     decoder.zero_grad()
     loss = 0
 
-    for c in range(args.chunk_len):
-        output, hidden = decoder(inp[c], hidden)
-        loss += criterion(output, target[c])
+    for c in range(line_tensor.size()[0]):
+        output, hidden = decoder(category_tensor[c], hidden)
+    
+    loss += criterion(output, line_tensor[c])
 
     loss.backward()
     decoder_optimizer.step()
 
-    return loss.data[0] / args.chunk_len
+    return output, loss.data[0]
 
 def save():
     save_filename = os.path.splitext(os.path.basename("/rnn/pt_file"))[0] + '.pt'
