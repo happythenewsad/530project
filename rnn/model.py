@@ -38,5 +38,6 @@ class RNN(nn.Module):
 
     def predict(self, line_tensor):
         output = self.evaluate(line_tensor)
-
-        return output
+        topv, topi = output.data.topk(1, 1, True)
+        return topi
+        
