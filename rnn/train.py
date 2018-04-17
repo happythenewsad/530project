@@ -21,7 +21,7 @@ def random_training_pair():
     return category, line, category_tensor, line_tensor
 
 
-def train(category_tensor, line_tensor, decoder, decoder_optimizer):
+def train(category_tensor, line_tensor, decoder):
     hidden = decoder.init_hidden()
     decoder.zero_grad()
     #print(line_tensor.size()[0])
