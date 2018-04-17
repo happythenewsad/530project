@@ -41,23 +41,6 @@ def save():
 
 
 
-try:
-    print("Training for %d epochs..." % n_epochs)
-    for epoch in range(1, n_epochs + 1):
-        loss = train(*random_training_set(chunk_len))
-        loss_avg += loss
-
-        if epoch % args.print_every == 0:
-            print('[%s (%d %d%%) %.4f]' % (time_since(start), epoch, epoch / n_epochs * 100, loss))
-            print(generate(decoder, 'Wh', 100), '\n')
-
-    print("Saving...")
-    save()
-
-except KeyboardInterrupt:
-    print("Saving before quit...")
-    save()
-
 
 # Parse command line arguments
 #argparser = argparse.ArgumentParser()

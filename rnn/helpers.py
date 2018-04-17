@@ -20,9 +20,12 @@ def read_file(filename):
     return file, len(file)
 
 # Turning a numpy.array into a tensor
-def convert_to_tensor(vector):
-    tf.convert_to_tensor(data_np, np.float32)
-    
+def convert_to_tensor(vectors):
+    ts = []
+    for v in vectors:
+        tf.convert_to_tensor(v, np.float32)
+        ts.append(tf)
+    return ts
 
 # Readable time elapsed
 

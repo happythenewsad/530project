@@ -23,3 +23,16 @@ class RNN(nn.Module):
 
     def init_hidden(self):
         return Variable(torch.zeros(self.n_layers, 1, self.hidden_size))
+
+    def predict(self, vectors):
+        print('\n> %s' % input_line)
+        predictions = []
+        for v in vectors:
+            output = evaluate(Variable(lineToTensor(input_line)))
+            # Get top N categories
+            topv, topi = output.data.topk(1, 1, True)
+            value = topv[0][1]
+            category_index = topi[0][1]
+            print('(%.2f) %s' % (value, all_categories[category_index]))
+            predictions.append([value, all_categories[category_index]])
+        return predictions
