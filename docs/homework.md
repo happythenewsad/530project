@@ -1,99 +1,51 @@
-Milestone 4 
-===========
+=============================
+SOCIAL MEDIA RUMOR EVALUATION 
+=============================
+
+For this assignment, we will be creating a text classisification system for Twitter messages to determine the veracity of rumors, based on several linguistic and contextual features. Each rumor is in the form of a tweet that reports an updated associated with a newsworthy event. The labels describe whether the rumor is true or false, as well as a confidence percentage between 0 and 1.
+
+This project is modeled after SemEval 2017 Task 8. There are two variants to this task. In subtask A, the veracity of a rumour will have to be predicted solely from the tweet itself (closed variant). In subtask B, predicting veracity is dependent on the provided additional context. This context consists of relevant snapshots, including a snapshot of an associated Wikipedia article, a Wikipedia dump, news articles from digital news outlets retrieved from NewsDiffs, as well as preceding tweets from the same event.
+
+More information of the task can be found here: https://competitions.codalab.org/competitions/16172#learn_the_details
 
 
-Task
-----
+DATA STRUCTURE
+==============
 
-RumorEval: Determining rumour veracity and support for rumours
+All of the code and data for this project can be downloaded here: **link**
 
+The training and development labels for tasks A and B can be found in **/data/semeval2017-task8-dataset/traindev**.
+The test labels can be found in **/data/semeval2017-task8-dataset/goldtest**.
+These directories contain JSON files which map tweet IDs to the label "true", "false", or "unverified".
 
-Motivation
-----------
-
-Rumor evaluation has substantial overlap with the current fake news problem. It would be great if we could identify fake news automatically.
-
-Example tweet:
-
-Coup in #Russia? Good article by @Forbes. http:\/\/t.co\/aaNCpb0blW #RamzanKadyrov #Putin #putindead http:\/\/t.co\/OfivdTlTbO
-
-Is this a rumor or not? This tweet references a Forbes article, a normally trustworthy news source. But notice how the tweet provides commentary that goes farther than the article. Namely, that Putin is in fact dead, not merely absent.
+The raw data for the tweets, including the message content, and a large cache of metadata, is stored in **/data/semeval2017-task8-dataset/rumoureval-data**. Each rumor topic has a subdirectory, and each tweet has a directory within the topic directory, labeled by tweet ID. The tweet directory contains **/source-tweet/[ID].json, which contains the literal message and metadata. **structure.json** details the structure of the tweet and any replying tweets, and **/replies/** contains the JSON data for those replies. Additionally, **urls.dat** contains a tab-separated list of URLs linked by each tweet (labeled by ID).
 
 
-Task instantiated as research problem
--------------------------------------
+EVALUATION METRIC
+=================
 
-SemEval ‘17: ‘RumourEval’ Task B - Closed
-https://competitions.codalab.org/competitions/16173
-
-
-Scoring
--------
-
-How should we evaluate the sucess of our models? Confidence weighted accuracy seems intuitively better than binary accuracy, since less confident predictions could be transformed by a downstream system for better use-specific performance. 
-
-Not all models used included confidence values, so we focused on recording and optimizing binary accuracy.
-
-Investigating other scoring metrics may prove fruitful, but this is out of scope of the project.
+With a multi-class prediction problem, the simplest evaluation metric is accuracy, or (TP + TN) / |N|. In other words, the number of correct predictions over the total number of test values.
 
 
-Baselines
----------
+BASELINE
+========
 
-Stupid baseline (majority class labeling): 0.48
-Best public baseline*: 28.57% (IITP)
+The first baseline to implement is a majority class baseline, which labels all of the test tweets by the label that appears with greatest frequency in the training data. This should achieve a decently high accuracy score of around 0.48.
 
-Extensions and exploration
---------------------------
-
-We decided to try new models and new features:
-
-Models
-  - RNN, using the scalar features only
-
-Techniques
-  - dimensionality reduction
-  - Feature generation
-  - Parameter tweaking
-
-Feature generation (expanded)
-  - Text characteristic features used by IITP and NileTMRG
-    e.g. Word count, POS tags, MPQA subjectivity lexicon, vulgar words
-  - Tweet metadata
-    Number of followers, account creation date, contains images
-  - Context features
-    Replies, Wikipedia articles
+For further classification, it is recommended to use the scikit-learn package for ML classifiers and Pytorch for RNNs.
 
 
-Results and Analysis
---------------------
+FEATURES
+========
 
-Best performing model
-  - Naive Bayes classifier (as expected, since IITP's best classifier was Naive Bayes)
-  - Text features
-  - Tweet replies: how ‘skeptical’ were the readers’ reactions?
-    11 features that gauged the proportion of replies containing “source?”, “proof?”, “lie!”, etc.
+There are a number of other features which we recommend you try appyling to this problem. Some of these features include:
+	- Word count
+	- Number of "vulgar" words
+	- Number of adjectives
+	- Word embeddings
+	- MPQA subjectivity lexicon
+	- POS tags
+	- Tweet metadata (Number of followers, account creation date, contains images)
+	- Context features (Replies, Wikipedia articles)
 
-Score: 0.53 (accuracy)
-
-We created 20 additional custom features. We selected 11 of these for use in the final model by intuitive experimentation. We found that dropping word embedding features increased the Naive Bayes model accuracy. This is problem because the cardinality of the word embedding features is quite high, and thus drowns out the predictive power of the other features. A natural mitigation would be to apply dimensionality reduction to the word embedding features. We plan to try this in future experiments.
-
-
-One of the first things we noticed about our benchmark paper was that their score against dev data was significantly lower than their score against test data. This implied that excessive tuning against dev data caused overfitting in their models. Thus, we only recorded test scores that were not lower than the corresponding dev scores. Further evidence of overfitting on IITP's end included testing on the dev-set and obtaining accuracy scores signifcantly lower than theirs, despite implementing all of their said features. 
-
-
-
-Things we didn't try, but wanted to
------------------------------------
-
-Feature weighting
-
-In-depth feature extraction from replies
-
-Deep feature extraction from linked articles
-
-Other models:
-  - Ensemble
-  - RandomForest
-
-
+For some of these features in particular we have included a package for parsing Twitter data, ported into Python from the CMU Tweet NLP (Noah's ARK) Twitter Parser: http://www.cs.cmu.edu/~ark/TweetNLP/. The script TwitterParser.py is a wrapper for the original Java tagger, and provides methods for tokenizing and POS-tagging tweets, with specialized labels for URLs, emojis, retweets, user-mentions, and other twitter-specific tags.
