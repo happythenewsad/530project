@@ -7,7 +7,8 @@ import nltk
 train_path = 'data/semeval2017-task8-dataset/traindev/rumoureval-subtaskB-train.json'
 dev_path = 'data/semeval2017-task8-dataset/traindev/rumoureval-subtaskB-dev.json' 
 eval_path = 'data/semeval2017-task8-dataset/rumoureval-data/'
-
+goldtest_path = 'data/semeval2017-task8-dataset/goldtest/subtaskb.json'
+goldtest_eval_path = 'data/semeval2017-task8-test-data/'
 test_folder_path = 'data/semeval2017-task8-test-data/'
 
 
@@ -21,10 +22,15 @@ class FileReader:
         train_data_full, dev_data_full, train_df_full, dev_df_full = FileReader.load_train_dev(train_path, dev_path, eval_path, simple=False)
         test_data_full, test_df_full = FileReader.load_test_data(test_folder_path, simple=False)
         
-        data_list = [train_data_simple, dev_data_simple, test_data_simple, train_data_full, dev_data_full, test_data_full]
-        df_list = [train_df_simple, dev_df_simple, test_df_simple, train_df_full, dev_df_full, test_df_full]
 
-        data_name_list = ['train_data_simple', 'dev_data_simple', 'test_data_simple', 'train_data_full', 'dev_data_full', 'test_data_full']
+        ## goldtest stuff
+        goldtest_data_simple, goldtest_df_simple = FileReader.load_goldtest(goldtest_path, goldtest_eval_path, simple=True)
+        goldtest_data_full, goldtest_df_full = FileReader.load_goldtest(goldtest_path, goldtest_eval_path, simple=False)
+
+        data_list = [train_data_simple, dev_data_simple, goldtest_data_simple, test_data_simple, train_data_full, dev_data_full, goldtest_data_full,test_data_full]
+        df_list = [train_df_simple, dev_df_simple, goldtest_df_simple,test_df_simple, train_df_full, dev_df_full, goldtest_df_full,test_df_full]
+
+        data_name_list = ['train_data_simple', 'dev_data_simple', 'goldtest_data_simple', 'test_data_simple', 'train_data_full', 'dev_data_full','goldtest_data_full', 'test_data_full']
 
         print('saving data to output..')
         
@@ -98,7 +104,6 @@ class FileReader:
 
     def source_tweet_data(tweet_id, folder_path_dict, simple=False):
         tweet_data = {}
-        
         folder_path = folder_path_dict[tweet_id]
         source_tweet_path = folder_path + 'source-tweet/' + tweet_id + '.json'
         
@@ -144,16 +149,17 @@ class FileReader:
             train_str = f1.read()
             dev_str = f2.read()
 
-        train_dict = json.loads(train_str)    
+            train_dict = json.loads(train_str)    
 
-        dev_dict = json.loads(dev_str)
-        train_data = {}
-        dev_data = {}
+            dev_dict = json.loads(dev_str)
 
-        folder_path_dict = {}
-        
-        topic_list = os.listdir(eval_path)
-        topic_dict = {}
+            train_data = {}
+            dev_data = {}
+
+            folder_path_dict = {}
+            
+            topic_list = os.listdir(eval_path)
+            topic_dict = {}
 
         # maintain folder path dictionary to use during feature generation
         for topic in FileReader.pruneOSXArtifactFiles(topic_list):
@@ -179,14 +185,37 @@ class FileReader:
         for tweet_id in dev_dict.keys():
             dev_data[tweet_id] = FileReader.source_tweet_data(tweet_id, folder_path_dict, simple)
             dev_data[tweet_id]['topic'] = dev_dict[tweet_id]
-            dev_data[tweet_id]['classification'] = dev_dict[tweet_id]        
+            dev_data[tweet_id]['classification'] = dev_dict[tweet_id]      
+
+        
         
         # save as pandas dataframe
         train_df = pd.DataFrame(train_data).transpose()
         dev_df = pd.DataFrame(dev_data).transpose()
         
-        return train_data, dev_data, train_df, dev_df
+        return train_data, dev_data, train_df, dev_df, 
 
+    def load_goldtest(goldtest_path, goldtest_eval_path, simple):
+        with open(goldtest_path, 'r') as f:
+            goldtest_str = f.read()
+            goldtest_data = {}
+
+            goldtest_dict = json.loads(goldtest_str)
+
+        # generate features for goldtest data
+
+
+ 
+        folder_path_dict = {tid: goldtest_eval_path + tid + "/" for tid in goldtest_dict.keys()}
+        print(folder_path_dict)
+        for tweet_id in goldtest_dict.keys():
+            print("GOLDTEST ID : " + str(type(tweet_id)))
+            goldtest_data[tweet_id] = FileReader.source_tweet_data(tweet_id, folder_path_dict, simple)
+            goldtest_data[tweet_id]['classification'] = goldtest_dict[tweet_id]    
+        
+        goldtest_df = pd.DataFrame(goldtest_data).transpose()
+
+        return goldtest_data, goldtest_df 
 
     def load_test_data(test_folder_path, simple=True):
         
