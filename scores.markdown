@@ -14,5 +14,4 @@ goldtest_dt: 0.28
 
 dev_rnn = 0.32
 
-goldtest_rnn, !wordembeddings, !containsURL = 0.25
-goldtest_rnn = 0.25 
+goldtest_rnn, !wordembeddings, !containsURL = 0.28
