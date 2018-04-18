@@ -22,12 +22,12 @@ Instructions
 ============
 
 To generate the stupid baseline (in place of simple-baseline.py): 
-$ jupyter notebook notebooks/exploration.ipynb
+    $ jupyter notebook notebooks/exploration.ipynb
 
 Evaluation script (in place of scoring.md:
-$ python3 scorer/scorerB.py LABELED_DATA.json PREDICTED_DATA.json 
+    $ python3 scorer/scorerB.py LABELED_DATA.json PREDICTED_DATA.json 
 
 To train the Naive Bayes model, add custom features, and evaluate the model:
-$ jupyter notebook main.ipynb
+    $ jupyter notebook main.ipynb
 
 
