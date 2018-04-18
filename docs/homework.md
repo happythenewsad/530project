@@ -32,13 +32,26 @@ BASELINE
 
 The first baseline to implement is a majority class baseline, which labels all of the test tweets by the label that appears with greatest frequency in the training data. This should achieve a decently high accuracy score of around 0.48.
 
-For further classification, it is recommended to use the scikit-learn package for ML classifiers and Pytorch for RNNs.
+
+GETTING STARTED
+===============
+
+In order to get started on the actual classification task, you need first need to set up a ML classifier. Although there are several available packages for classifiers, we recommend using the scikit-learn package for SVM, NaiveBayes, and Decision Tree classifiers.
+
+If you do not already have scikit-learn installed, first be sure install NumPy 1.8.2+ and SciPy 0.13.3+. You can install sklearn classifiers using pip:
+	$ pip3 install -U scikit-learn
+
+NOTE: A more advanced option might be constructing an RNN, for which we recommend the Pytorch package. Pytorch can be installed using pip as well:
+	$ pip3 install pytorch
+
+We recommend that you load all of the JSON data, including text and metadata content into a Pandas dataframe, which can be converted to NumPy for feeding into a classifier. This will make handling the multiple data sources and features simpler, and collect data into a central location.
 
 
 FEATURES
 ========
 
-There are a number of other features which we recommend you try appyling to this problem. Some of these features include:
+There are a number of other features which we recommend you try appyling to this problem. Please pick a few of these features to add to your model, and report on the success of each feature:
+	- GloVe 200-D word embeddings (with dimemsionality reduction)
 	- Word count
 	- Number of "vulgar" words
 	- Number of adjectives
