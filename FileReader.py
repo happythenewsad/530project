@@ -118,11 +118,43 @@ class FileReader:
             tweet_data['text'] = source_tweet['text']
         
         # Use all information in the source tweet
-        # NOT USED FOR BASELINE, BUT MAY BE USEFUL FOR GENERATING MORE FEATURES
         else:
             tweet_data = source_tweet
         
-        # TODO: EXTRACT INFORMATION FROM TWEET REPLIES
+        #extract replies
+        replies = folder_path + 'replies/'
+        has_replies = int(os.path.isdir(folder_path + 'replies'))
+        
+        
+        reply_count = 0
+        suspicion_words = ['source', 'proof', 'data', 'lie', 'fabricat', 'credib', 'witness', 'detail', 'NOT', 'correct', '?']
+        suspicion_counts = np.zeros(len(suspicion_words)) 
+    
+        if has_replies:
+            for reply_id in FileReader.pruneOSXArtifactFiles(os.listdir(replies)):
+                reply_count += 1
+                
+                reply_path = replies + reply_id
+    
+                with open(reply_path, 'r') as f:
+                    reply_str = f.read()
+
+                reply = json.loads(reply_str)            
+                repl_text = reply['text']
+
+                for idx, word in enumerate(suspicion_words):
+                    if word in repl_text:
+                        suspicion_counts[idx] += 1
+                        
+        if reply_count > 0: 
+            suspicion_counts = suspicion_counts / float(reply_count)
+        
+        tweet_data['num_replies'] = reply_count
+        
+        for idx, word in enumerate(suspicion_words):
+            col_name = 're_has_' + word
+            tweet_data[col_name] = suspicion_counts[idx]
+
         
         # does the tweet have context? (boolean value)
         has_context = int(os.path.isdir(folder_path + 'context'))
