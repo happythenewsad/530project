@@ -34,7 +34,7 @@ How should we evaluate the sucess of our models? Confidence weighted accuracy se
 
 Not all models used included confidence values, so we focused on recording and optimizing binary accuracy.
 
-Investigating other scoring metrics may prove fruitfal, but this is out of scope of the project.
+Investigating other scoring metrics may prove fruitful, but this is out of scope of the project.
 
 
 Baselines
@@ -49,7 +49,7 @@ Extensions and exploration
 We decided to try new models and new features:
 
 Models
-  - RNN
+  - RNN, using the scalar features only
 
 Techniques
   - dimensionality reduction
@@ -69,18 +69,17 @@ Results and Analysis
 --------------------
 
 Best performing model
-  - Naive Bayes classifier
+  - Naive Bayes classifier (as expected, since IITP's best classifier was Naive Bayes)
   - Text features
   - Tweet replies: how ‘skeptical’ were the readers’ reactions?
     11 features that gauged the proportion of replies containing “source?”, “proof?”, “lie!”, etc.
 
 Score: 0.53 (accuracy)
 
-We created 20 additional custom features. We selected 11 of these for use in the final model by intuitive experimentation. We found that dropping word embedding features drastically increased the Naive Bayes model accuracy. This is problem because the cardinality of the word embedding features is quite high, and thus drowns out the predictive power of the other features. A natural mitigation would be to apply dimensionality reduction to the word embedding features. We plan to try this in future experiments.
+We created 20 additional custom features. We selected 11 of these for use in the final model by intuitive experimentation. We found that dropping word embedding features increased the Naive Bayes model accuracy. This is problem because the cardinality of the word embedding features is quite high, and thus drowns out the predictive power of the other features. A natural mitigation would be to apply dimensionality reduction to the word embedding features. We plan to try this in future experiments.
 
 
-One of the first things we noticed about our benchmark paper was that their score against dev data was significantly lower than their score against test data. This implied that excessive tuning against dev data caused overfitting in their models. Thus, we only recorded test scores that were not lower than the corresponding dev scores.
-
+One of the first things we noticed about our benchmark paper was that their score against dev data was significantly lower than their score against test data. This implied that excessive tuning against dev data caused overfitting in their models. Thus, we only recorded test scores that were not lower than the corresponding dev scores. Further evidence of overfitting on IITP's end included testing on the dev-set and obtaining accuracy scores signifcantly lower than theirs, despite implementing all of their said features. 
 
 
 
