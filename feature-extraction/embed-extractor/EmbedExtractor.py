@@ -2,6 +2,10 @@ from gensim.scripts.glove2word2vec import glove2word2vec
 from gensim.models import KeyedVectors
 from gensim.models import Word2Vec
 import string
+import json
+import pickle
+jstr = ""
+
 # glove_input_file = 'glove.6B/glove.6B.50d.txt'
 # word2vec_output_file = 'glove.6B.50d.txt.word2vec'
 # glove2word2vec(glove_input_file, word2vec_output_file)
@@ -37,4 +41,17 @@ class EmbedExtractor():
 			vec.extend(pad)
 		return vec
 
-ee = EmbedExtractor()
+# with open('./output/full/dev_data_full.json', 'r') as f:
+#     jstr = f.read()
+
+# j = json.loads(jstr)
+# ee = EmbedExtractor()
+
+# tweet2vec = {}
+
+# for key in j:
+# 	tweet=j[key]['text']
+# 	tweet2vec[key]=tweet
+
+# pickle.dump(tweet2vec,open("feature_embedding.pickle","wb"))
+
