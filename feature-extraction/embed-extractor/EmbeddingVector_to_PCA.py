@@ -24,7 +24,7 @@ def chunkIt(seq, num):
 
 
 
-word_embeddings = pd.read_pickle('feature_embedding.pickle')
+word_embeddings = pd.read_pickle('word_embedding_vectors.pickle')
 
 
 word_embeddings_chunked = {}
@@ -43,4 +43,4 @@ for word in word_embeddings_chunked:
 		print(word_embeddings_chunked[word])
 		print("UH OH")
 
-pickle.dump(word_embeddings_pca, open("pca_word_embedding.pickle", "wb"))
+pickle.dump(word_embeddings_pca, open("pca_word_embeddings.pickle", "wb"))
