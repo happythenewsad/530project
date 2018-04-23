@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.naive_bayes import GaussianNB
 import sklearn.svm as svm
 from sklearn.tree import DecisionTreeClassifier
-
+from sklearn.ensemble import RandomForestClassifier
 """
 Use Pandas for reading data into a Pandas DataFrame
 Use native Pandas features to process text features to numerical ones
@@ -37,6 +37,14 @@ def svm_classifier(x_vectors, x_labels, y_vectors):
     clf.fit(x_vectors, x_labels)
     predictions = (clf.predict(y_vectors))
     probabilities = clf.decision_function(y_vectors) 
+    return predictions, probabilities
+
+def random_forest(x_vectors, x_labels, y_vectors, n_estimators, min_samples_leaf, criterion='entropy'):
+    clf = RandomForestClassifier(random_state=0, max_depth=10, min_samples_leaf=min_samples_leaf, n_estimators=n_estimators, criterion=criterion)
+    clf.fit(x_vectors, x_labels)
+
+    predictions = (clf.predict(y_vectors))
+    probabilities = clf.predict_proba(y_vectors) 
     return predictions, probabilities
 
 
