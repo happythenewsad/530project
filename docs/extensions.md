@@ -84,3 +84,17 @@ no embeddings,
 no containsURL      0.28
 
 
+
+RF
+default parameters  0.21
+
+RF
+n_samples = 20  0.25
+
+
+RF
+n_samples = 40 0.28
+
+RF
+n_samples = 80  0.32
+
