@@ -24,23 +24,26 @@ def chunkIt(seq, num):
 
 
 
-word_embeddings = pd.read_pickle('word_embedding_vectors.pickle')
+for d in ["train","dev","test"]:
+	pickleFile = d+"_word_embedding_vectors.pickle"
+	word_embeddings = pd.read_pickle(pickleFile)
 
 
-word_embeddings_chunked = {}
-for word in word_embeddings:
-	word_embeddings_chunked[word]=chunkIt(word_embeddings[word],30)
-word_embeddings_pca = {}
-for word in word_embeddings_chunked:
-	pca = decomposition.PCA(n_components=24)
-	x = np.array(word_embeddings_chunked[word])
-	try:
-		x_std = StandardScaler().fit_transform(x)
-		pca.fit_transform(x_std)
-		word_embeddings_pca[word]=pca.singular_values_
-		print(pca.singular_values_)
-	except ValueError:
-		print(word_embeddings_chunked[word])
-		print("UH OH")
+	word_embeddings_chunked = {}
+	for word in word_embeddings:
+		word_embeddings_chunked[word]=chunkIt(word_embeddings[word],30)
+	word_embeddings_pca = {}
+	for word in word_embeddings_chunked:
+		pca = decomposition.PCA(n_components=24)
+		x = np.array(word_embeddings_chunked[word])
+		print(x)
+		try:
+			x_std = StandardScaler().fit_transform(x)
+			pca.fit_transform(x_std)
+			word_embeddings_pca[word]=pca.singular_values_
+			# print(pca.singular_values_)
+		except ValueError:
+			# print(word_embeddings_chunked[word])
+			print("UH OH")
 
-pickle.dump(word_embeddings_pca, open("pca_word_embeddings.pickle", "wb"))
+	pickle.dump(word_embeddings_pca, open(d+"_pca_word_embedding_vector.pickle", "wb"))

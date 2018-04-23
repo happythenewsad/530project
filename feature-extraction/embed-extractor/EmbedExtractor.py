@@ -41,17 +41,18 @@ class EmbedExtractor():
 			vec.extend(pad)
 		return vec
 
-# with open('./output/full/dev_data_full.json', 'r') as f:
-#     jstr = f.read()
+ee = EmbedExtractor()
 
-# j = json.loads(jstr)
-# ee = EmbedExtractor()
+for d in ["train","dev","test"]:
+	with open('./output/full/'+d+'_data_full.json', 'r') as f:
+	    jstr = f.read()
 
-# tweet2vec = {}
+	j = json.loads(jstr)
+	tweet2vec = {}
 
-# for key in j:
-# 	tweet=j[key]['text']
-# 	tweet2vec[key]=tweet
+	for key in j:
+		tweet=j[key]['text']
+		tweet2vec[key]=ee.tweetVec(tweet)
 
-# pickle.dump(tweet2vec,open("feature_embedding.pickle","wb"))
+	pickle.dump(tweet2vec,open(d+"_word_embedding_vectors.pickle","wb"))
 
