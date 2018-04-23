@@ -239,9 +239,9 @@ class FileReader:
 
  
         folder_path_dict = {tid: goldtest_eval_path + tid + "/" for tid in goldtest_dict.keys()}
-        print(folder_path_dict)
+        #print(folder_path_dict)
         for tweet_id in goldtest_dict.keys():
-            print("GOLDTEST ID : " + str(type(tweet_id)))
+            #print("GOLDTEST ID : " + str(type(tweet_id)))
             goldtest_data[tweet_id] = FileReader.source_tweet_data(tweet_id, folder_path_dict, simple)
             goldtest_data[tweet_id]['classification'] = goldtest_dict[tweet_id]    
         
@@ -261,7 +261,7 @@ class FileReader:
         
         # generate features for test data
         for tweet_id in FileReader.pruneOSXArtifactFiles(os.listdir(test_folder_path)):
-            print("\n",tweet_id)
+            #print("\n",tweet_id)
             test_data[tweet_id] = FileReader.source_tweet_data(tweet_id, folder_path_dict, simple)
         
         # save as pandas dataframe
