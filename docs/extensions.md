@@ -99,6 +99,12 @@ RF
 n_samples = 80  0.32
 
 
+RF
+using 80 estimators, 3 min samples leaf, and gini
+without (# 'opinion', 'user_default_profile', 'user_favourites_count', 'user_followers_count', 'user_friends_count', 'user_geo_enabled', 'user_listed_count',  'user_statuses_count', 'user_verified', 'user_created'])
+
+0.25
+
 
 POST-PCA:
 
