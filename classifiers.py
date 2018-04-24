@@ -39,7 +39,7 @@ def svm_classifier(x_vectors, x_labels, y_vectors):
     probabilities = clf.decision_function(y_vectors) 
     return predictions, probabilities
 
-def random_forest(x_vectors, x_labels, y_vectors, n_estimators, min_samples_leaf, criterion='entropy'):
+def random_forest(x_vectors, x_labels, y_vectors, n_estimators=80, min_samples_leaf=3, criterion='gini'):
     clf = RandomForestClassifier(random_state=0, max_depth=10, min_samples_leaf=min_samples_leaf, n_estimators=n_estimators, criterion=criterion)
     clf.fit(x_vectors, x_labels)
 
