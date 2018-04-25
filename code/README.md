@@ -16,20 +16,9 @@ More information of the task can be found here: https://competitions.codalab.org
 - The test data can be found in ./semeval2017-task8-test-data*.
 
 
-The baseline (./notebooks/baseline.json) assumes with full confidence that all the rumors are false. This results in a 48% accuracy — roughly equal to randomly guessing. **scorer** returns the accuracies, as well as whether or not each entry was labeled correctly.
-
 
 Instructions
 ============
-
-To generate the stupid baseline (in place of simple-baseline.py): 
-    `$ jupyter notebook notebooks/exploration.ipynb`
-
-To train various classifiers, add custom features, and evaluate the model:
-    `$ jupyter notebook main.ipynb`
-
-To train various the RNN, add custom features, and evaluate the model:
-    `$ jupyter notebook RNN.ipynb`
 
 
 Dependencies
@@ -43,7 +32,7 @@ Must install via pip3 or conda:
 - nltk
 - jupyter notebook
 
-Given its large size, the glove word2vec file cannot be version. It must be placed manually in the top project directory, and should be named glove.6B.200d.txt.word2vec
+Given its large size, the glove word2vec file cannot be versioned. It must be placed manually in the top project directory, and should be named glove.6B.200d.txt.word2vec. It can be downloaded here: http://nlp.stanford.edu/data/glove.6B.zip
 
 
 To run unit tests:
@@ -52,6 +41,14 @@ To run unit tests:
 $ python3 test_runner.py
 
 
+To train and evaluate:
+----------------------
+
+To train non-RNN classifiers, add custom features, and evaluate the model:
+    `$ jupyter notebook main.ipynb`
+
+To train various the RNN, add custom features, and evaluate the model:
+    `$ jupyter notebook RNN.ipynb`
 
 
 
