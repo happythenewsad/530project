@@ -46,7 +46,7 @@ Published baseline to beat: 28.57%
 | Naive Bayes, no 'containsURL', embeddings       |               0.50|
 | Naive Bayes, no 'containsURL', no embeddings       |               0.25|
 | Naive Bayes, no 'containsURL', no embeddings, user, reply       |               0.50|
-| *Naive Bayes, no embeddings, no user, reply*      | *0.53* |
+| *Naive Bayes, no embeddings, no user, reply*      | _**0.53**_ |
 | SVM       |        0.32       |
 | SVM, no 'containsURL'       |        0.32       |
 | Decision Tree       |     0.28          |
@@ -61,7 +61,7 @@ Published baseline to beat: 28.57%
 | POST-PCA |               |
 | Naive Bayes, optimal feature set (row 4) | 0.39 |
 | SVM, optimal feature set (row 4)  |    0.35          |
-| *Decision Tree, optimal feature set (row 4)*  |    *0.53*    <sup>1</sup>      |
+| *Decision Tree, optimal feature set (row 4)*  |    _**0.53**_    <sup>1</sup>      |
 | Random Forest, n_samples = 80, optimal feature set (row 4)  |    0.28          |
 
 1. The score for the decision tree fluctuates depending on the initialization of the tree
