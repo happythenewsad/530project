@@ -9,3 +9,4 @@ output/classifier_output/*
 .ipynb_checkpoints/*
 **/glove*.txt
 **/glove*.txt.word2vec
+__init__.py
