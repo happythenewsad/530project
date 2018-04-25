@@ -1,4 +1,4 @@
-Revised for Milestone 4
+Revised for Milestone 5
 
 
 Background
@@ -18,14 +18,40 @@ More information of the task can be found here: https://competitions.codalab.org
 
 The baseline (./notebooks/baseline.json) assumes with full confidence that all the rumors are false. This results in a 48% accuracy — roughly equal to randomly guessing. **scorer** returns the accuracies, as well as whether or not each entry was labeled correctly.
 
+
 Instructions
 ============
 
 To generate the stupid baseline (in place of simple-baseline.py): 
     `$ jupyter notebook notebooks/exploration.ipynb`
 
-To train the Naive Bayes model, add custom features, and evaluate the model:
+To train various classifiers, add custom features, and evaluate the model:
     `$ jupyter notebook main.ipynb`
+
+To train various the RNN, add custom features, and evaluate the model:
+    `$ jupyter notebook RNN.ipynb`
+
+
+Dependencies
+------------
+
+Must install via pip3 or conda:
+- gensim
+- sklearn
+- numpy
+- pandas
+- nltk
+- jupyter notebook
+
+Given its large size, the glove word2vec file cannot be version. It must be placed manually in the top project directory, and should be named glove.6B.200d.txt.word2vec
+
+
+To run unit tests:
+------------------
+
+$ python3 test_runner.py
+
+
 
 
 
