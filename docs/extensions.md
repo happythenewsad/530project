@@ -50,33 +50,20 @@ public baseline to beat: 28.57%
 | Naive Bayes, no containsURL       |               0.50|
 | Naive Bayes, no containsURL, no embeddings       |               0.25|
 | Naive Bayes, no containsURL, no embeddings, user, reply       |               0.50|
-| <mark> Naive Bayes, no embeddings, reply </mark>      | <mark>              0.53 </mark>|
+| **Naive Bayes, no embeddings, reply**      | **0.53** |
 | SVM       |        0.321       |
 | SVM, no containsURL       |        0.321       |
 | Decision Tree       |     0.28          |
 | Decision Tree, no containsURL       |     0.32          |
 |  RNN, no embeddings, no containsURL   |    0.28           |
 |  RF, default parameters  |    0.21           |
-
-
-
-
-RF
-n_samples = 20  0.25
-
-
-RF
-n_samples = 40 0.28
-
-RF
-n_samples = 80  0.32
-
-
-RF
-using 80 estimators, 3 min samples leaf, and gini
+|  RF, n_samples = 20  |    0.25           |
+|  RF, n_samples = 40  |    0.28           |
+|  RF, n_samples = 80  |    0.32           |
+|  RF, using 80 estimators, 3 min samples leaf, and gini
 without (# 'opinion', 'user_default_profile', 'user_favourites_count', 'user_followers_count', 'user_friends_count', 'user_geo_enabled', 'user_listed_count',  'user_statuses_count', 'user_verified', 'user_created'])
+|    0.25           |
 
-0.25
 
 
 POST-PCA:
