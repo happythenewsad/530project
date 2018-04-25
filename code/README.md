@@ -44,6 +44,8 @@ $ python3 test_runner.py
 To train and evaluate:
 ----------------------
 
+Instructions on how to run each of these notebooks are included in each notebook!
+
 To train non-RNN classifiers, add custom features, and evaluate the model:
     `$ jupyter notebook main.ipynb`
 
