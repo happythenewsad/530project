@@ -58,7 +58,7 @@ Published baseline to beat: 28.57%
 |  RF, n_samples = 80  |    0.32           |
 |  RF, n_samples = 80, optimal feature set (row 4)  |    0.25           |
 |  |               |
-| POST-PCA |               |
+| **POST-PCA** |               |
 | Naive Bayes, optimal feature set (row 4) | 0.39 |
 | SVM, optimal feature set (row 4)  |    0.35          |
 | *Decision Tree, optimal feature set (row 4)*  |    _**0.53**_    <sup>1</sup>      |
