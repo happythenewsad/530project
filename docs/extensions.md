@@ -4,7 +4,7 @@ Extensions
 Extensions are not completed unless marked COMPLETED
 
 
-- additional features       COMPLETED
+- additional features       COMPLETED    
   'num_replies', 
   're_has_?', 
   're_has_NOT', 
@@ -48,8 +48,14 @@ public baseline to beat: 28.57%
 Remark              test accuracy
 ---------------------------------
 
-Naive Bayes, 
-no containsURL      0.50
+| Remark | Test accuracy |
+|--------|---------------|
+| Naive Bayes, no containsURL       |               0.50|
+|        |               |
+|        |               |
+|        |               |
+
+
 
 Naive Bayes, 
 no containsURL,
