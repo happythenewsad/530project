@@ -50,5 +50,8 @@ To train non-RNN classifiers, add custom features, and evaluate the model:
 To train various the RNN, add custom features, and evaluate the model:
     `$ jupyter notebook RNN.ipynb`
 
+To demonstrate tweet text run on an RNN (akin to Homework 6), and evaluate:
+	`$ jupyter notebook RNN_Text.ipynb`
+
 
 
