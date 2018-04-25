@@ -12,7 +12,6 @@ Extensions
   'user_statuses_count', 
   'user_verified', 
   'user_created'       
-
 **reply features:**       
   'num_replies', 
   're_has_?', 
@@ -33,14 +32,15 @@ Extensions
 - Ensemble model(s)
   - combinations of NB, SVM, RF, etc
 
-- dimensionality reduction (specifically on word embedding features)
+- Dimensionality Reduction
+	-  PCA on word embedding features
 
 
 
 Scores:
 =======
 
-public baseline to beat: 28.57%
+Published baseline to beat: 28.57%
 
 
 | Remark | Test accuracy |
