@@ -16,8 +16,6 @@ More information of the task can be found here: https://competitions.codalab.org
 - The test data can be found in ./semeval2017-task8-test-data*.
 
 
-The baseline (./notebooks/baseline.json) assumes with full confidence that all the rumors are false. This results in a 48% accuracy — roughly equal to randomly guessing. **scorer** returns the accuracies, as well as whether or not each entry was labeled correctly.
-
 
 Instructions
 ============

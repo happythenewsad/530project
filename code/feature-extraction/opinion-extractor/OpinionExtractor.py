@@ -10,7 +10,7 @@ class OpinionExtractor:
     def initialize_subjectivity():
 
         sj = []
-        with open('./feature-extraction/opinion-extractor/subjectivity.tff', 'r') as subject:
+        with open('./code/feature-extraction/opinion-extractor/subjectivity.tff', 'r') as subject:
             sj = subject.readlines()
 
         subj = []
