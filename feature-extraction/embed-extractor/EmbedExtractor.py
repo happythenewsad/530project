@@ -14,6 +14,7 @@ jstr = ""
 ########## that for testing purposes. This can be done by using EmbedExtractor(True).
 ########## Otherwise, the paper specifies 200 dimensions, so use glove.6B.200d.txt.word2vec.
 
+
 class EmbedExtractor():
 	def __init__(self,testing=False):
 		# load the Stanford GloVe model, which has been converted to W2V
@@ -25,6 +26,19 @@ class EmbedExtractor():
 		self.wv = self.model.wv
 		self.size = size
 
+	def chunkIt(self, seq):
+	    avg = 200
+	    out = []
+	    last = 0.0
+	    zeros = [0]*int(avg)
+
+	    while last < len(seq):
+	        subVector = seq[int(last):int(last + avg)]
+	        if zeros==subVector and last>4700:
+	            break
+	        out.append(subVector)
+	        last += avg
+	    return out
 	def tweetVec(self, tweet):
 		pad=[0.0]*self.size
 		translator = str.maketrans('', '', string.punctuation)
@@ -39,7 +53,7 @@ class EmbedExtractor():
 		wordsLeft=45-len(tweetParse)  #I assume that most tweets will have less than 45 words.
 		for i in range(wordsLeft):
 			vec.extend(pad)
-		return vec
+		return self.chunkIt(vec)
 
 ee = EmbedExtractor()
 
