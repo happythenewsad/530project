@@ -1,0 +1,1 @@
+The data is small enough to be included in this repo. However, the GloVe word embeddings are not. Instructions for those can be found in the main README.md.
